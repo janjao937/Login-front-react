@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Joi from "joi";
@@ -16,7 +17,8 @@ export default function RegisterPage(){
   const [confirmPassword,setConfirmPassword] = useState("");
 
   const [errorState,setErrorState] = useState({username:"",password:"",confirmPassword:""});
-  
+  const [isLoading,setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const OnSubmitHandler = (event)=>{
     event.preventDefault();
@@ -34,13 +36,22 @@ export default function RegisterPage(){
     }
 
     setErrorState({username:"",password:"",confirmPassword:""});
+    setLoading(true);
     //ชื่อcolum ใน server prisma:username
     axios.post("http://localhost:5555/auth/register",{
       username,
-      password
+      password,
+      confirmPassword
     }).then((res)=>{
       window.alert("Success registration");
-    }).catch(err=>console.log(err))
+      navigate("/login");//Navigate path
+
+    }).catch(err=>console.log(err)).finally(()=>{
+      setLoading(false);
+    });
+  }
+  if(isLoading){
+    return <h1>Loading...</h1>;
   }
     return (
         <form onSubmit={OnSubmitHandler} className='flex flex-col gap-4 bg-white p-4 rounded-md'>
