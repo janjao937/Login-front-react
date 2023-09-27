@@ -44,7 +44,7 @@ export default function RegisterPage(){
       confirmPassword
     }).then((res)=>{
       window.alert("Success registration");
-      navigate("/login");//Navigate path
+      navigate("/login");//Navigate to path /login
 
     }).catch(err=>console.log(err)).finally(()=>{
       setLoading(false);
