@@ -4,6 +4,8 @@ import Header from "../component/Header.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RegisterPage from "../pages/RegisterPage.jsx";
+import Authenticated from "../component/Authenticated.jsx";
+import RedirectIfAuthenticated from "../component/RedirectIfAuthenticate.jsx";
 
 
 const router = createBrowserRouter(
@@ -19,8 +21,16 @@ const router = createBrowserRouter(
         </div>
         ),
         children:[//element จะไปแทนที outlet ตาม path
-        {path:"/",element:<HomePage/>},
-        {path:"/login",element:<LoginPage/>},
+        {path:"/",element:
+        <Authenticated>
+            <HomePage/>
+        </Authenticated>
+        },
+        {path:"/login",element:
+        <RedirectIfAuthenticated>
+            <LoginPage/>
+        </RedirectIfAuthenticated>
+    },
         {path:"/register",element:<RegisterPage/>}
         ]
             
